@@ -8,8 +8,10 @@ from utils.clean_dataset import clean_dataset
 import pandas as pd
 from utils.prepare_dataset import prepare_dataset
 import numpy as np
+from dotenv import load_dotenv
+load_dotenv()
 
-login('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')
+login()
 
 DATA_DIR = './data/'
 model_checkpoint = DATA_DIR + "benchmark-bert-base-uncased"

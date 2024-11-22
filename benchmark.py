@@ -7,7 +7,7 @@ from utils.clean_dataset import clean_dataset
 from utils.category_mapping import generate_mapping,save_mappings
 from utils.prepare_dataset import prepare_dataset
 
-login('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')
+login()
 
 
 DATA_DIR = './data/'
