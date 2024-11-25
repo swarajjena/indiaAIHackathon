@@ -20,7 +20,7 @@ login(token=hf_token)
 DATA_DIR = './data/'
 
 
-model_checkpoint = DATA_DIR + "models/benchmark-bert-base-uncased"
+model_checkpoint = "swarajjena/benchmark-xlm-roberta-base"
 
 # Load Mappings
 mappings = load_mappings()
