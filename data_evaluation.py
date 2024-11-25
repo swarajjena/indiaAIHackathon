@@ -20,7 +20,8 @@ login(token=hf_token)
 DATA_DIR = './data/'
 
 
-model_checkpoint = "swarajjena/benchmark-xlm-roberta-base"
+model_checkpoint = "swarajjena/xlm-roberta-base"
+tokeniser_checkpoint =  "FacebookAI/xlm-roberta-base"
 
 # Load Mappings
 mappings = load_mappings()
@@ -29,7 +30,6 @@ subcategory_mapping = mappings["subcategory_mapping"]
 num_category_labels = mappings["no_of_categories"]
 num_subcategory_labels = mappings["no_of_subcategories"]
 
-tokeniser_checkpoint = "bert-base-cased"
 tokenizer = AutoTokenizer.from_pretrained(tokeniser_checkpoint)
 
 
@@ -37,6 +37,7 @@ tokenizer = AutoTokenizer.from_pretrained(tokeniser_checkpoint)
 model = AutoModelForSequenceClassification.from_pretrained(
     model_checkpoint,
     num_labels=num_category_labels,  # Number of labels for category classification
+    # ignore_mismatched_sizes=True,
 )
 
 training_args = TrainingArguments(
@@ -72,8 +73,8 @@ def evaluate_accuracy(filename = 'test.csv'):
     test_df = test_df.dropna(subset=['category_label', 'subcategory_label'])
 
 
-    test_set = prepare_dataset(test_df, tokenizer)
 
+    test_set = prepare_dataset(test_df, tokenizer)
     logits = trainer.predict(test_set)
     test_df["predicted_label_index"] = np.argmax(logits.predictions, 1)
 
@@ -108,7 +109,7 @@ def main():
     file_path = input(f"Please enter the path to the csv file wrt ./data folder you want to evaluate: (default: {default_path}): ") or default_path
 
     try:
-        with open(file_path, 'r') as file:
+        with open(DATA_DIR+file_path, 'r') as file:
             print("Evaluating File", file_path)
     except FileNotFoundError:
         print(f"Error: The file '{file_path}' does not exist.")
